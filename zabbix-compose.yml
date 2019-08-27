@@ -11,7 +11,7 @@ services:
             - MYSQL_PASSWORD= #senha de usuario
         ports: ["3306:3306"]
         volumes:
-            - c:/bd-zabbix:/var/lib/mysql
+            - c:/bd-zabbix:/var/lib/mysql #mapeamento de diretorio compartilhado com maquina host
 
     zabbix-server:
         #Zabbix server com mysql
