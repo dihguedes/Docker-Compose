@@ -1,0 +1,42 @@
+version: "3"
+services:
+   bbi zax-bd:
+        #banco de dados zabbix
+        image: mysql:5.7
+        environment:
+            - MYSQL_HOST= #ip host mysql 
+            - MYSQL_USER= #usuario
+            - MYSQL_ROOT_PASSWORD= #senha root 
+            - MYSQL_DATABASE= #nome do banco 
+            - MYSQL_PASSWORD= #senha de usuario
+        ports: ["3306:3306"]
+        volumes:
+            - c:/bd-zabbix:/var/lib/mysql
+
+    zabbix-server:
+        #Zabbix server com mysql
+        image: zabbix/zabbix-server-mysql:ubuntu-4.0-latest
+        environment:
+            - MYSQL_ROOT_PASSWORD= #senha root bd
+            - DB_SERVER_HOST= #endereço ip bd    
+            - DB_SERVER_PORT= #porta bd
+            - MYSQL_USER= #usuario bd
+            - MYSQL_PASSWORD= #senha bd
+            - MYSQL_DATABASE= #nome banco de dados
+        ports: ["10051:10051"]
+
+    zabbix-web:
+        # Zabbix web nginx e mysql
+        image: zabbix/zabbix-web-nginx-mysql:ubuntu-4.0-latest
+        environment:
+            - MYSQL_ROOT_PASSWORD= #senha root bd
+            - DB_SERVER_HOST= #endereço ip bd
+            - DB_SERVER_PORT= #porta bd
+            - MYSQL_USER= #senha bd
+            - MYSQL_PASSWORD= #senha bd
+            - MYSQL_DATABASE= #nome banco de dados
+            - ZBX_SERVER_HOST= #ip zabbix server 
+            - ZBX_SERVER_PORT= #porta zabbix server 
+            - PHP_TZ= #fuso horario exp ("America/Sao_Paulo")
+        ports: ["80:80"]
+            
